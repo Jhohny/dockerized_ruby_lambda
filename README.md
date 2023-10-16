@@ -1,30 +1,54 @@
-x86-64 architecture
-From your project directory, run the following command to download the runtime interface emulator (x86-64 architecture) from GitHub and install it on your local machine.
+# AWS Lambda Runtime Interface Emulator Setup
 
-mkdir -p ~/.aws-lambda-rie && \
-    curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
-    chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+## x86-64 Architecture
 
+To set up the runtime interface emulator for x86-64 architecture, follow these steps:
 
-arm64 emulator
-From your project directory, run the following command to download the runtime interface arm64 emulator from GitHub and install it on your local machine.
+1. Create a directory for the emulator and download it from GitHub to your local machine:
 
-mkdir -p ~/.aws-lambda-rie && \
-    curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
-    chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+   ```bash
+   mkdir -p ~/.aws-lambda-rie && \
+       curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
+       chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+   ```
 
+## ARM64 Emulator
 
-Start the Docker image with the docker run command. Note the following:
-docker-image is the image name and test is the tag.
-aws_lambda_ric lambda_function.LambdaFunction::Handler.process is the ENTRYPOINT followed by the CMD from your Dockerfile.
+To set up the runtime interface emulator for ARM64 architecture, follow these steps:
 
-docker run -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \
-    --entrypoint /aws-lambda/aws-lambda-rie \
-    docker-image:test \
-        aws_lambda_ric lambda_function.LambdaFunction::Handler.process
+1. Create a directory for the emulator and download it from GitHub to your local machine:
 
-my sample:
+   ```bash
+   mkdir -p ~/.aws-lambda-rie && \
+       curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 and chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+   ```
+
+## Starting the Docker Image
+
+Once you've set up the emulator, you can start the Docker image using the `docker run` command. Make sure to note the following:
+
+- `docker-image:test` represents the image name and tag.
+- `aws_lambda_ric lambda_function.LambdaFunction::Handler.process` specifies the `ENTRYPOINT` and `CMD` from your Dockerfile.
+
+Here's an example command for both x86-64 and ARM64:
+
+### x86-64 Example
+
+```bash
 DOCKER_DEFAULT_PLATFORM=linux/amd64 docker run -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \
     --entrypoint /aws-lambda/aws-lambda-rie \
-    39b18030a799 \
-        aws_lambda_ric lambda_function.LambdaFunction::Handler.process
+    docker-image:test \
+    aws_lambda_ric lambda_function.LambdaFunction::Handler.process
+```
+
+### ARM64 Example
+
+```bash
+DOCKER_DEFAULT_PLATFORM=linux/arm64 docker run -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \
+    --entrypoint /aws-lambda/aws-lambda-rie \
+    docker-image:test \
+    aws_lambda_ric lambda_function.LambdaFunction::Handler.process
+```
+
+Replace `docker-image:test` with the appropriate image name and tag, and you're ready to run your containerized Lambda function.
+```
